@@ -1,9 +1,9 @@
-# Your Name Here
+# Logan Hays
 # UWYO COSC 1010
-# Submission Date
-# Lab XX
-# Lab Section:
-# Sources, people worked with, help given to:
+# Submission Date 11/14/24
+# Lab 9
+# Lab Section: 18 (Usually in 13)
+# Sources, people worked with, help given to: Calvin Howard, Nollan Hottell and chat GTP for help fixing some of the errors  
 # Your
 # Comments
 # Here
@@ -34,6 +34,31 @@
 # - Assign the parameter for size to a size attribute.
 # - Assign the parameter for sauce to the attribute.
 # - Create the toppings attribute, starting off as a list only holding cheese.
+
+class Pizza:
+    def __init__(self, size, sauce ="red"):
+        self.setsize(size)  
+        self.sauce = sauce
+        self.toppings=["cheese"]
+    def setsize (self, size):
+        if size > 10:
+            self.size = size
+        else:
+            self.size = 10
+    def getsize (self):
+        return self.size
+    def setsauce (self,sauce):
+        self.sauce = sauce
+    def getsauce (self):
+        return self.sauce
+    def addtoppings (self,toppings):
+        for t in toppings:
+            self.toppings.append(t)
+    def gettoppings (self):
+        return self.toppings
+    def getamountoftoppings (self):
+        return len(self.toppings)
+
 
 
 # You will be creating a Pizzeria class with the following attributes:
@@ -78,6 +103,58 @@
 # - After the order is placed, call the getReceipt() method.
 # - Repeat the loop as needed.
 # - AFTER the loop, print how many orders were placed.
+
+class Pizzaria:
+    def __init__ (self):
+        self.orders = 0
+        self.pizzas = []
+        self.price_per_inch = 0.6
+        self.price_per_topping = 0.3
+    def placeOrder (self):
+        self.orders += 1
+        size = int(input("Please enter the size of the pizza, as a whole number. The smallest size is 10:"))
+        sauce = input("What kind of sauce would you like? Leave blank for red")
+        if not sauce:
+            sauce = "red"
+        toppings = []
+        while True:
+            topping = input("what kind of topping would you like? Leave blank when done")
+            if topping == "":
+                break
+            toppings.append(topping)
+        pizza = Pizza(size, sauce)
+        pizza.addtoppings(toppings)
+        self.pizzas.append(pizza)
+    def getPrice (self, pizza):
+        return (pizza.getsize() * self.price_per_inch) + (pizza.getamountoftoppings() * self.price_per_topping)
+    def getReceipt (self, pizza):
+        size = pizza.getsize()
+        sauce = pizza.getsauce()
+        toppings = pizza.gettoppings()
+        num_toppings = pizza.getamountoftoppings()
+        size_price = size * self.price_per_inch
+        toppings_price = num_toppings * self.price_per_topping
+        print(f"You ordered a {size} inch pizza with {sauce} sauce and the following toppings:")
+        for topping in toppings:
+            print(f"{topping}")
+        print(f"You ordered a {size} inch pizza for ${size_price}")
+        print(f"You ordered {num_toppings} topping(s) for {toppings_price}")
+        total = toppings_price + size_price
+        print(f"Your order total is ${total}")
+    def getnumberoforders (self):
+        return self.orders
+
+pizzaria = Pizzaria()
+
+while True:
+    question = input("What would you like to place an order? exit to exit")
+    if question.lower() == "exit":
+        break 
+    pizzaria.placeOrder()
+    pizza = pizzaria.pizzas[-1]
+    pizzaria.getReceipt(pizza)
+    print(f"Total number of orders: {pizzaria.getnumberoforders()}")
+    
 
 
 # Example output:
